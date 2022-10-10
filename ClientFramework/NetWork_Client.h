@@ -8,7 +8,7 @@
 #include <MSWSock.h>
 #include <windows.h>
 
-#include "protocol.h"
+#include "..\Server_work\protocol.h"
 
 
 //서버정보
