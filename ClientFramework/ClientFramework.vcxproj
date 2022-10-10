@@ -150,7 +150,6 @@
     <ClInclude Include="DirectXTex.h" />
     <ClInclude Include="DxEngine.h" />
     <ClInclude Include="NetWork_Client.h" />
-    <ClInclude Include="protocol.h" />
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="CmdQueue.h" />

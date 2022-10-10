@@ -32,7 +32,7 @@ private:
 	HANDLE _h_iocp;
 	SOCKET _socket;
 
-	SOCKADDR_IN _addr;
+	SOCKADDR_IN _addr;      
 
 	// 윈속 초기화
 	WSADATA wsa;

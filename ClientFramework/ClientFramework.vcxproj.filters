@@ -125,9 +125,6 @@
     <ClInclude Include="NetWork_Client.h">
       <Filter>DxEngine\NetWork</Filter>
     </ClInclude>
-    <ClInclude Include="protocol.h">
-      <Filter>DxEngine\NetWork</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Shader.hlsl">
