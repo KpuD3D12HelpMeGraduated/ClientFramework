@@ -56,13 +56,13 @@ public:
 			indexVec.push_back(2);
 			indexVec.push_back(3);
 		}
-		dxEngine.vertexBufferPtr->CreateVertexBuffer(vec, dxEngine.deviceInst);
-		dxEngine.indexBufferPtr->CreateIndexBuffer(indexVec, dxEngine.deviceInst);
-		dxEngine.psoPtr->CreateInputLayoutAndPSOAndShader(dxEngine.deviceInst, dxEngine.rootSignaturePtr);
-		dxEngine.texturePtr->CreateTexture(L"..\\Resources\\Texture\\bricks.dds", dxEngine.deviceInst, dxEngine.cmdQueueInst);
-		dxEngine.texturePtr->CreateSRV(dxEngine.deviceInst);
+		dxEngine.vertexBufferPtr->CreateVertexBuffer(vec, dxEngine.devicePtr);
+		dxEngine.indexBufferPtr->CreateIndexBuffer(indexVec, dxEngine.devicePtr);
+		dxEngine.psoPtr->CreateInputLayoutAndPSOAndShader(dxEngine.devicePtr, dxEngine.rootSignaturePtr, dxEngine.dsvPtr);
+		dxEngine.texturePtr->CreateTexture(L"..\\Resources\\Texture\\bricks.dds", dxEngine.devicePtr, dxEngine.cmdQueuePtr);
+		dxEngine.texturePtr->CreateSRV(dxEngine.devicePtr);
 
-		dxEngine.cmdQueueInst->WaitSync();
+		dxEngine.cmdQueuePtr->WaitSync();
 	}
 
 	int Update()
@@ -79,7 +79,7 @@ public:
 			else
 			{
 				//매 프레임마다 그리기
-				dxEngine.Draw(dxEngine.swapChainPtr, dxEngine.rtvPtr, dxEngine.vertexBufferPtr, dxEngine.rootSignaturePtr, dxEngine.psoPtr, dxEngine.constantBufferPtr, dxEngine.descHeapPtr, dxEngine.indexBufferPtr, dxEngine.texturePtr);
+				dxEngine.Draw();
 			}
 		}
 

@@ -6,6 +6,7 @@
 #include "RTV.h"
 #include "VertexBuffer.h"
 #include "RootSignature.h"
+#include "DSV.h"
 #include "PSO.h"
 #include "ConstantBuffer.h"
 #include "DescHeap.h"
@@ -18,12 +19,11 @@ public:
 	void Init(WindowInfo windowInfo);
 	
 	//매 프레임마다 그리기
-	void Draw(shared_ptr<SwapChain> swapChainPtr, shared_ptr<RTV> rtvPtr, shared_ptr<VertexBuffer> vertexBufferPtr, shared_ptr<RootSignature> rootsignaturePtr,
-		shared_ptr<PSO> psoPtr, shared_ptr<ConstantBuffer> constantBufferPtr, shared_ptr<DescHeap> descHeapPtr, shared_ptr<IndexBuffer> indexBufferPtr, shared_ptr<Texture> texturePtr);
+	void Draw();
 
 	//요소별 객체 포인터
-	shared_ptr<Device> deviceInst = make_shared<Device>();
-	shared_ptr<CmdQueue> cmdQueueInst = make_shared<CmdQueue>();
+	shared_ptr<Device> devicePtr = make_shared<Device>();
+	shared_ptr<CmdQueue> cmdQueuePtr = make_shared<CmdQueue>();
 	shared_ptr<SwapChain> swapChainPtr = make_shared<SwapChain>();
 	shared_ptr<RTV> rtvPtr = make_shared<RTV>();
 	shared_ptr<VertexBuffer> vertexBufferPtr = make_shared<VertexBuffer>();
@@ -33,6 +33,7 @@ public:
 	shared_ptr<DescHeap> descHeapPtr = make_shared<DescHeap>();
 	shared_ptr<IndexBuffer> indexBufferPtr = make_shared<IndexBuffer>();
 	shared_ptr<Texture> texturePtr = make_shared<Texture>();
+	shared_ptr<DSV> dsvPtr = make_shared<DSV>();
 
 private:
 	//화면 크기 관련

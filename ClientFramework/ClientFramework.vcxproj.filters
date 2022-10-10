@@ -28,6 +28,9 @@
     <Filter Include="DxEngine\NetWork">
       <UniqueIdentifier>{48174b3b-bff6-4478-8a49-ab4463ce5d1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DxEngine\DSV">
+      <UniqueIdentifier>{51a9def4-c21d-4cbb-beb9-4d41558485c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DxEngine.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="NetWork_Client.cpp">
       <Filter>DxEngine\NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="DSV.cpp">
+      <Filter>DxEngine\DSV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="NetWork_Client.h">
       <Filter>DxEngine\NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="DSV.h">
+      <Filter>DxEngine\DSV</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

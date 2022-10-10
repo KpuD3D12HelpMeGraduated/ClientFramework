@@ -11,5 +11,5 @@ public:
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC _pipelineDesc = {};
 
 	//인풋레이아웃과 PSO생성 및 셰이더 컴파일
-	void CreateInputLayoutAndPSOAndShader(shared_ptr<Device> devicePtr, shared_ptr<RootSignature> rootSignaturePtr);
+	void CreateInputLayoutAndPSOAndShader(shared_ptr<Device> devicePtr, shared_ptr<RootSignature> rootSignaturePtr, shared_ptr<DSV> dsvPtr);
 };

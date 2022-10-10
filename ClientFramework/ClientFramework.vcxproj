@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="CmdQueue.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="DSV.cpp" />
     <ClCompile Include="DxEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetWork_Client.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DirectXTex.h" />
+    <ClInclude Include="DSV.h" />
     <ClInclude Include="DxEngine.h" />
     <ClInclude Include="NetWork_Client.h" />
     <ClInclude Include="RootSignature.h" />
