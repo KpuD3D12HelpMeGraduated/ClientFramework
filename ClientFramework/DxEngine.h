@@ -12,6 +12,7 @@
 #include "DescHeap.h"
 #include "IndexBuffer.h"
 #include "Texture.h"
+#include "Camera.h"
 
 class DxEngine {
 public:
@@ -34,6 +35,7 @@ public:
 	shared_ptr<IndexBuffer> indexBufferPtr = make_shared<IndexBuffer>();
 	shared_ptr<Texture> texturePtr = make_shared<Texture>();
 	shared_ptr<DSV> dsvPtr = make_shared<DSV>();
+	shared_ptr<Camera> cameraPtr = make_shared<Camera>();
 
 private:
 	//화면 크기 관련

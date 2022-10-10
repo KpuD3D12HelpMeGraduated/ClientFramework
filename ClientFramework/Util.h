@@ -47,10 +47,22 @@ struct Vertex
 	XMFLOAT2 uv;
 };
 
-//상수버퍼로 넘겨줄 구조체의 형태(현재는 상수를 통한 이동을 위해 transform)
-struct Transform
+//행렬을 단위행렬로 초기화
+static XMFLOAT4X4 Identity4x4()
 {
-	XMFLOAT4 offset;
+	static XMFLOAT4X4 I(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	return I;
+}
+
+//상수버퍼로 넘겨줄 구조체의 형태
+struct Constants
+{
+	XMFLOAT4X4 worldViewProj = Identity4x4();
 };
 
 //윈도우와 관련된 정보

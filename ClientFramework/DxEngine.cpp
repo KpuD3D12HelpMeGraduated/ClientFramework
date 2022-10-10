@@ -12,8 +12,9 @@ void DxEngine::Init(WindowInfo windowInfo)
 	cmdQueuePtr->CreateCmdListAndCmdQueue(devicePtr);
 	swapChainPtr->DescriptAndCreateSwapChain(windowInfo, devicePtr, cmdQueuePtr);
 	rtvPtr->CreateRTV(devicePtr, swapChainPtr);
+	cameraPtr->TransformProjection(windowInfo); //투영 변환
 	rootSignaturePtr->CreateRootSignature(devicePtr);
-	constantBufferPtr->CreateConstantBuffer(sizeof(Transform), 256, devicePtr);
+	constantBufferPtr->CreateConstantBuffer(sizeof(Constants), 256, devicePtr);
 	constantBufferPtr->CreateView(devicePtr);
 	descHeapPtr->CreateDescTable(256, devicePtr);
 	dsvPtr->CreateDSV(DXGI_FORMAT_D32_FLOAT, windowInfo, devicePtr);
@@ -25,6 +26,17 @@ void DxEngine::Init(WindowInfo windowInfo)
 
 void DxEngine::Draw()
 {
+	//WVP 변환
+	XMVECTOR pos = XMVectorSet(0.0f, 0.0f, -10.0f, 1.0f);
+	XMVECTOR target = XMVectorZero();
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up); //뷰 변환 행렬
+	XMStoreFloat4x4(&cameraPtr->mView, view);
+	XMMATRIX world = XMLoadFloat4x4(&cameraPtr->mWorld); //월드 변환 행렬
+	XMMATRIX proj = XMLoadFloat4x4(&cameraPtr->mProj); //투영 변환 행렬
+	XMMATRIX worldViewProj = world * view * proj;
+	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldViewProj, XMMatrixTranspose(worldViewProj));
+
 	//렌더 시작
 	cmdQueuePtr->_cmdAlloc->Reset();
 	cmdQueuePtr->_cmdList->Reset(cmdQueuePtr->_cmdAlloc.Get(), nullptr);
@@ -50,38 +62,16 @@ void DxEngine::Draw()
 
 	cmdQueuePtr->_cmdList->ClearDepthStencilView(depthStencilView, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
+	cmdQueuePtr->_cmdList->SetPipelineState(psoPtr->_pipelineState.Get());
+
 	//렌더
 	{
-		cmdQueuePtr->_cmdList->SetPipelineState(psoPtr->_pipelineState.Get());
-		Transform t;
-		t.offset = XMFLOAT4(0.f, 0.f, 0.2f, 0.f);
-		vertexBufferPtr->_transform = t;
-
 		cmdQueuePtr->_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		cmdQueuePtr->_cmdList->IASetVertexBuffers(0, 1, &vertexBufferPtr->_vertexBufferView);
 		cmdQueuePtr->_cmdList->IASetIndexBuffer(&indexBufferPtr->_indexBufferView);
 		{
 			D3D12_CPU_DESCRIPTOR_HANDLE handle = constantBufferPtr->PushData(0, &vertexBufferPtr->_transform, sizeof(vertexBufferPtr->_transform));
 			descHeapPtr->SetCBV(handle, 0, devicePtr);
-			descHeapPtr->SetSRV(texturePtr->_srvHandle, 5, devicePtr);
-		}
-
-		descHeapPtr->CommitTable(cmdQueuePtr);
-		cmdQueuePtr->_cmdList->DrawIndexedInstanced(indexBufferPtr->_indexCount, 1, 0, 0, 0);
-	}
-
-	//깊이검사가 잘 수행되는지 테스트 해보기 위해 두번째 메쉬 그리기
-	{
-		Transform t2;
-		t2.offset = XMFLOAT4(0.25f, 0.25f, 0.3f, 0.f);
-		vertexBufferPtr->_transform = t2;
-
-		cmdQueuePtr->_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		cmdQueuePtr->_cmdList->IASetVertexBuffers(0, 1, &vertexBufferPtr->_vertexBufferView);
-		cmdQueuePtr->_cmdList->IASetIndexBuffer(&indexBufferPtr->_indexBufferView);
-		{
-			D3D12_CPU_DESCRIPTOR_HANDLE handle2 = constantBufferPtr->PushData(0, &vertexBufferPtr->_transform, sizeof(vertexBufferPtr->_transform));
-			descHeapPtr->SetCBV(handle2, 0, devicePtr);
 			descHeapPtr->SetSRV(texturePtr->_srvHandle, 5, devicePtr);
 		}
 

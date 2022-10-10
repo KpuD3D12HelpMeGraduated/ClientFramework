@@ -31,6 +31,9 @@
     <Filter Include="DxEngine\DSV">
       <UniqueIdentifier>{51a9def4-c21d-4cbb-beb9-4d41558485c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DxEngine\Camera">
+      <UniqueIdentifier>{a5e3dbce-3169-428c-b07b-7ba45f9cdf95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DxEngine.cpp">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="DSV.h">
       <Filter>DxEngine\DSV</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>DxEngine\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -145,6 +145,7 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="Device.h" />

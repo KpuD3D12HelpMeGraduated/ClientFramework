@@ -1,6 +1,6 @@
 cbuffer TEST_B0 : register(b0)
 {
-    float4 offset0;
+    float4x4 gWorldViewProj;
 };
 
 cbuffer TEST_B1 : register(b1)
@@ -29,8 +29,7 @@ VS_OUT VS_Main(VS_IN input)
 {
     VS_OUT output = (VS_OUT)0;
 
-    output.pos = float4(input.pos, 1.f);
-    output.pos += offset0;
+    output.pos = mul(float4(input.pos, 1.f), gWorldViewProj);
     output.color = input.color;
     output.uv = input.uv;
 
