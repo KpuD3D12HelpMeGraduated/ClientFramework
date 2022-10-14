@@ -13,6 +13,7 @@
 #include "IndexBuffer.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "FbxLoader.h"
 
 class DxEngine {
 public:
@@ -36,6 +37,7 @@ public:
 	shared_ptr<Texture> texturePtr = make_shared<Texture>();
 	shared_ptr<DSV> dsvPtr = make_shared<DSV>();
 	shared_ptr<Camera> cameraPtr = make_shared<Camera>();
+	shared_ptr<FbxLoader> fbxLoaderPtr = make_shared<FbxLoader>();
 
 private:
 	//화면 크기 관련

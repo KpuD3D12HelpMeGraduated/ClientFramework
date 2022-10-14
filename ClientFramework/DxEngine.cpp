@@ -32,7 +32,10 @@ void DxEngine::Draw()
 	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	XMMATRIX view = XMMatrixLookAtLH(pos, target, up); //뷰 변환 행렬
 	XMStoreFloat4x4(&cameraPtr->mView, view);
+
+	XMStoreFloat4x4(&cameraPtr->mWorld, XMMatrixScaling(0.1f, 0.1f, 0.1f));
 	XMMATRIX world = XMLoadFloat4x4(&cameraPtr->mWorld); //월드 변환 행렬
+
 	XMMATRIX proj = XMLoadFloat4x4(&cameraPtr->mProj); //투영 변환 행렬
 	XMMATRIX worldViewProj = world * view * proj;
 	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldViewProj, XMMatrixTranspose(worldViewProj));
