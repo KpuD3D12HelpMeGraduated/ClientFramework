@@ -71,6 +71,15 @@ struct LIGHTS
 	int						m_nLights;
 };
 
+struct LightInfo
+{
+	//float4인 이유는 float4로 선언하면 패딩값을 일일이 채울 필요가 없어서
+	XMFLOAT4 diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.f);
+	XMFLOAT4 ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.f);
+	XMFLOAT4 specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 0.f);
+	XMFLOAT4 direction = XMFLOAT4(-1.f, -1.f, 1.f, 0.f);
+};
+
 //정점 구조체
 struct Vertex
 {
@@ -95,6 +104,11 @@ static XMFLOAT4X4 Identity4x4()
 struct Constants
 {
 	XMFLOAT4X4 worldViewProj = Identity4x4();
+	XMFLOAT4X4 world = Identity4x4();
+	XMFLOAT4X4 view = Identity4x4();
+	XMFLOAT4X4 proj = Identity4x4();
+	XMFLOAT4X4 worldView = Identity4x4();
+	LightInfo lnghtInfo;
 };
 
 //윈도우와 관련된 정보

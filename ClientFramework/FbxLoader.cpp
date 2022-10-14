@@ -181,7 +181,7 @@ void FbxLoader::DisplayPolygons(FbxMesh* pMesh, vector<Vertex>& vertexVec, vecto
 	assert(polygonSize == 3);
 
 	UINT arrIdx[3];
-	UINT vertexCounter = 0; // 정점의 개수
+	UINT vertexCounter = 0; //정점의 개수
 
 	for (int i = 0; i < triCount; i++)
 	{
@@ -190,10 +190,34 @@ void FbxLoader::DisplayPolygons(FbxMesh* pMesh, vector<Vertex>& vertexVec, vecto
 			int controlPointIndex = pMesh->GetPolygonVertex(i, j);
 			arrIdx[j] = controlPointIndex;
 
-			vertexVec[controlPointIndex].color.x = 0.5f;
-			vertexVec[controlPointIndex].color.y = 0.5f;
-			vertexVec[controlPointIndex].color.z = 0.5f;
+			//Normal 로드
+			if (pMesh->GetElementNormalCount() == 0)
+				return;
 
+			FbxGeometryElementNormal* normal = pMesh->GetElementNormal();
+			UINT normalIdx = 0;
+
+			if (normal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
+			{
+				if (normal->GetReferenceMode() == FbxGeometryElement::eDirect)
+					normalIdx = vertexCounter;
+				else
+					normalIdx = normal->GetIndexArray().GetAt(vertexCounter);
+			}
+			else if (normal->GetMappingMode() == FbxGeometryElement::eByControlPoint)
+			{
+				if (normal->GetReferenceMode() == FbxGeometryElement::eDirect)
+					normalIdx = controlPointIndex;
+				else
+					normalIdx = normal->GetIndexArray().GetAt(controlPointIndex);
+			}
+
+			FbxVector4 vec = normal->GetDirectArray().GetAt(normalIdx);
+			vertexVec[controlPointIndex].color.x = static_cast<float>(vec.mData[0]);
+			vertexVec[controlPointIndex].color.y = static_cast<float>(vec.mData[2]);
+			vertexVec[controlPointIndex].color.z = static_cast<float>(vec.mData[1]);
+
+			//UV 로드
 			FbxVector2 uv = pMesh->GetElementUV()->GetDirectArray().GetAt(pMesh->GetTextureUVIndex(i, j));
 			vertexVec[controlPointIndex].uv.x = static_cast<float>(uv.mData[0]);
 			vertexVec[controlPointIndex].uv.y = 1.f - static_cast<float>(uv.mData[1]);

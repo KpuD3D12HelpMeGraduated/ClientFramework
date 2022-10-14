@@ -40,6 +40,11 @@ void DxEngine::Draw()
 	XMMATRIX worldViewProj = world * view * proj;
 	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldViewProj, XMMatrixTranspose(worldViewProj));
 
+	//Light
+	LightInfo lightInfo;
+	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldView, XMMatrixTranspose(world * view));
+	vertexBufferPtr->_transform.lnghtInfo = lightInfo;
+
 	//·»´õ ½ÃÀÛ
 	cmdQueuePtr->_cmdAlloc->Reset();
 	cmdQueuePtr->_cmdList->Reset(cmdQueuePtr->_cmdAlloc.Get(), nullptr);
