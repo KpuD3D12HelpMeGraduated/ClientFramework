@@ -31,7 +31,7 @@
     <Filter Include="DxEngine\DSV">
       <UniqueIdentifier>{51a9def4-c21d-4cbb-beb9-4d41558485c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DxEngine\Camera">
+    <Filter Include="DxEngine\GameUtil">
       <UniqueIdentifier>{a5e3dbce-3169-428c-b07b-7ba45f9cdf95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -83,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="FbxLoader.cpp">
       <Filter>DxEngine\메쉬%28정점버퍼, 인덱스버퍼, 상수버퍼%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>DxEngine\GameUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>DxEngine\GameUtil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,10 +147,13 @@
       <Filter>DxEngine\DSV</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>DxEngine\Camera</Filter>
+      <Filter>DxEngine\GameUtil</Filter>
     </ClInclude>
     <ClInclude Include="FbxLoader.h">
       <Filter>DxEngine\메쉬%28정점버퍼, 인덱스버퍼, 상수버퍼%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>DxEngine\GameUtil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

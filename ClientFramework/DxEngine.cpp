@@ -17,11 +17,18 @@ void DxEngine::Init(WindowInfo windowInfo)
 	constantBufferPtr->CreateConstantBuffer(sizeof(Constants), 256, devicePtr);
 	constantBufferPtr->CreateView(devicePtr);
 	descHeapPtr->CreateDescTable(256, devicePtr);
+	timerPtr->InitTimer();
 	dsvPtr->CreateDSV(DXGI_FORMAT_D32_FLOAT, windowInfo, devicePtr);
 	RECT rect = { 0, 0, windowInfo.ClientWidth, windowInfo.ClientHeight };
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(windowInfo.hwnd, 0, 100, 100, windowInfo.ClientWidth, windowInfo.ClientHeight, 0);
 	dsvPtr->CreateDSV(DXGI_FORMAT_D32_FLOAT, windowInfo, devicePtr);
+}
+
+void DxEngine::Update(WindowInfo windowInfo)
+{
+	timerPtr->TimerUpdate(); //타이머 업데이트
+	timerPtr->ShowFps(windowInfo); //fps출력
 }
 
 void DxEngine::Draw()

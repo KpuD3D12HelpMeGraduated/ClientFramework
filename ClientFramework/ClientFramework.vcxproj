@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CmdQueue.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DSV.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="RTV.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="PSO.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
@@ -159,6 +161,7 @@
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="NetWork_Client.h" />
     <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="CmdQueue.h" />
     <ClInclude Include="SwapChain.h" />

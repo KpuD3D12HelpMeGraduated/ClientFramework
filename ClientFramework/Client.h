@@ -44,25 +44,10 @@ public:
 		dxEngine.cmdQueuePtr->WaitSync();
 	}
 
-	int Update()
+	void Update()
 	{
-		//매 프레임마다 업데이트
-		MSG msg = { 0 };
-		while (msg.message != WM_QUIT)
-		{
-			if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else
-			{
-				//매 프레임마다 그리기
-				dxEngine.Draw();
-			}
-		}
-
-		return (int)msg.wParam;
+		dxEngine.Update(windowInfo);
+		dxEngine.Draw();
 	}
 };
 

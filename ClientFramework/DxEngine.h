@@ -14,12 +14,16 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "FbxLoader.h"
+#include "Timer.h"
 
 class DxEngine {
 public:
 	//DX엔진 초기화
 	void Init(WindowInfo windowInfo);
 	
+	//매 프레임마다 업데이트
+	void Update(WindowInfo windowInfo);
+
 	//매 프레임마다 그리기
 	void Draw();
 
@@ -38,6 +42,7 @@ public:
 	shared_ptr<DSV> dsvPtr = make_shared<DSV>();
 	shared_ptr<Camera> cameraPtr = make_shared<Camera>();
 	shared_ptr<FbxLoader> fbxLoaderPtr = make_shared<FbxLoader>();
+	shared_ptr<Timer> timerPtr = make_shared<Timer>();
 
 private:
 	//화면 크기 관련
