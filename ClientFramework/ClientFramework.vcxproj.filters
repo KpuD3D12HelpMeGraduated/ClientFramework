@@ -90,6 +90,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>DxEngine\GameUtil</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>DxEngine\GameUtil</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -153,6 +156,9 @@
       <Filter>DxEngine\메쉬%28정점버퍼, 인덱스버퍼, 상수버퍼%29</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>DxEngine\GameUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
       <Filter>DxEngine\GameUtil</Filter>
     </ClInclude>
   </ItemGroup>

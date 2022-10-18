@@ -8,17 +8,15 @@ struct LightInfo
 
 cbuffer TEST_B0 : register(b0)
 {
-    float4x4 gWorldViewProj;
     float4x4 gWorld;
     float4x4 gView;
     float4x4 gProjection;
-    float4x4 gWV;
     LightInfo lightInfo;
 };
 
 cbuffer TEST_B1 : register(b1)
 {
-    float4 offset1;
+    float4 offset;
 };
 
 Texture2D tex_0 : register(t0);
@@ -69,11 +67,13 @@ VS_OUT VS_Main(VS_IN input)
 {
     VS_OUT output = (VS_OUT)0;
 
+    float4x4 WV = mul(gWorld, gView);
+
     input.normal = float4(input.normal.xyz, 0.f);
 
-    output.pos = mul(float4(input.pos, 1.f), gWorldViewProj);
-    output.viewPos = mul(float4(input.pos, 1.f), gWV).xyz;
-    output.viewNormal = normalize(mul(input.normal, gWV).xyz);
+    output.pos = mul(float4(input.pos, 1.f), mul(gWorld , mul(gView, gProjection)));
+    output.viewPos = mul(float4(input.pos, 1.f), WV).xyz;
+    output.viewNormal = normalize(mul(input.normal, WV).xyz);
     output.uv = input.uv;
 
     return output;

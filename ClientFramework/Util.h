@@ -103,12 +103,15 @@ static XMFLOAT4X4 Identity4x4()
 //상수버퍼로 넘겨줄 구조체의 형태
 struct Constants
 {
-	XMFLOAT4X4 worldViewProj = Identity4x4();
 	XMFLOAT4X4 world = Identity4x4();
 	XMFLOAT4X4 view = Identity4x4();
 	XMFLOAT4X4 proj = Identity4x4();
-	XMFLOAT4X4 worldView = Identity4x4();
 	LightInfo lnghtInfo;
+};
+
+struct Obj
+{
+	XMFLOAT4 transform = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 };
 
 //윈도우와 관련된 정보

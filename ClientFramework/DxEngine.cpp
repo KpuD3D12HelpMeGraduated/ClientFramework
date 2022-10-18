@@ -23,35 +23,35 @@ void DxEngine::Init(WindowInfo windowInfo)
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(windowInfo.hwnd, 0, 100, 100, windowInfo.ClientWidth, windowInfo.ClientHeight, 0);
 	dsvPtr->CreateDSV(DXGI_FORMAT_D32_FLOAT, windowInfo, devicePtr);
+
+	inputPtr->Init(); //벡터 사이즈 초기화
+	player.transform = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	npc.transform = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void DxEngine::Update(WindowInfo windowInfo)
 {
 	timerPtr->TimerUpdate(); //타이머 업데이트
 	timerPtr->ShowFps(windowInfo); //fps출력
+	inputPtr->InputKey(player, timerPtr);
+
+	//VP 변환
+	XMVECTOR pos = XMVectorSet(player.transform.x, 0.0f, player.transform.z - 10.0f, 1.0f);
+	XMVECTOR target = XMVectorSet(player.transform.x, player.transform.y, player.transform.z, player.transform.w);
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up); //뷰 변환 행렬
+	XMStoreFloat4x4(&vertexBufferPtr->_transform.view, XMMatrixTranspose(view));
+
+	XMMATRIX proj = XMLoadFloat4x4(&cameraPtr->mProj); //투영 변환 행렬
+	XMStoreFloat4x4(&vertexBufferPtr->_transform.proj, XMMatrixTranspose(proj));
+
+	//Light
+	LightInfo lightInfo;
+	vertexBufferPtr->_transform.lnghtInfo = lightInfo;
 }
 
 void DxEngine::Draw()
 {
-	//WVP 변환
-	XMVECTOR pos = XMVectorSet(0.0f, 0.0f, -10.0f, 1.0f);
-	XMVECTOR target = XMVectorZero();
-	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	XMMATRIX view = XMMatrixLookAtLH(pos, target, up); //뷰 변환 행렬
-	XMStoreFloat4x4(&cameraPtr->mView, view);
-
-	XMStoreFloat4x4(&cameraPtr->mWorld, XMMatrixScaling(0.1f, 0.1f, 0.1f));
-	XMMATRIX world = XMLoadFloat4x4(&cameraPtr->mWorld); //월드 변환 행렬
-
-	XMMATRIX proj = XMLoadFloat4x4(&cameraPtr->mProj); //투영 변환 행렬
-	XMMATRIX worldViewProj = world * view * proj;
-	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldViewProj, XMMatrixTranspose(worldViewProj));
-
-	//Light
-	LightInfo lightInfo;
-	XMStoreFloat4x4(&vertexBufferPtr->_transform.worldView, XMMatrixTranspose(world * view));
-	vertexBufferPtr->_transform.lnghtInfo = lightInfo;
-
 	//렌더 시작
 	cmdQueuePtr->_cmdAlloc->Reset();
 	cmdQueuePtr->_cmdList->Reset(cmdQueuePtr->_cmdAlloc.Get(), nullptr);
@@ -81,12 +81,39 @@ void DxEngine::Draw()
 
 	//렌더
 	{
+		//월드 변환
+		XMStoreFloat4x4(&vertexBufferPtr->_transform.world, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixTranslation(player.transform.x, player.transform.y, player.transform.z));
+		XMMATRIX world = XMLoadFloat4x4(&vertexBufferPtr->_transform.world);
+		XMStoreFloat4x4(&vertexBufferPtr->_transform.world, XMMatrixTranspose(world));
+
+		//렌더
 		cmdQueuePtr->_cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		cmdQueuePtr->_cmdList->IASetVertexBuffers(0, 1, &vertexBufferPtr->_vertexBufferView);
 		cmdQueuePtr->_cmdList->IASetIndexBuffer(&indexBufferPtr->_indexBufferView);
 		{
 			D3D12_CPU_DESCRIPTOR_HANDLE handle = constantBufferPtr->PushData(0, &vertexBufferPtr->_transform, sizeof(vertexBufferPtr->_transform));
 			descHeapPtr->SetCBV(handle, 0, devicePtr);
+			D3D12_CPU_DESCRIPTOR_HANDLE handle2 = constantBufferPtr->PushData(1, &player.transform, sizeof(player.transform));
+			descHeapPtr->SetCBV(handle2, 1, devicePtr);
+			descHeapPtr->SetSRV(texturePtr->_srvHandle, 5, devicePtr);
+		}
+
+		descHeapPtr->CommitTable(cmdQueuePtr);
+		cmdQueuePtr->_cmdList->DrawIndexedInstanced(indexBufferPtr->_indexCount, 1, 0, 0, 0);
+	}
+
+	{
+		//월드 변환
+		XMStoreFloat4x4(&vertexBufferPtr->_transform.world, XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixTranslation(npc.transform.x, npc.transform.y, npc.transform.z));
+		XMMATRIX world = XMLoadFloat4x4(&vertexBufferPtr->_transform.world);
+		XMStoreFloat4x4(&vertexBufferPtr->_transform.world, XMMatrixTranspose(world));
+
+		//렌더
+		{
+			D3D12_CPU_DESCRIPTOR_HANDLE handle = constantBufferPtr->PushData(0, &vertexBufferPtr->_transform, sizeof(vertexBufferPtr->_transform));
+			descHeapPtr->SetCBV(handle, 0, devicePtr);
+			D3D12_CPU_DESCRIPTOR_HANDLE handle2 = constantBufferPtr->PushData(1, &npc.transform, sizeof(npc.transform));
+			descHeapPtr->SetCBV(handle2, 1, devicePtr);
 			descHeapPtr->SetSRV(texturePtr->_srvHandle, 5, devicePtr);
 		}
 

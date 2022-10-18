@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include "FbxLoader.h"
 #include "Timer.h"
+#include "Input.h"
 
 class DxEngine {
 public:
@@ -43,6 +44,11 @@ public:
 	shared_ptr<Camera> cameraPtr = make_shared<Camera>();
 	shared_ptr<FbxLoader> fbxLoaderPtr = make_shared<FbxLoader>();
 	shared_ptr<Timer> timerPtr = make_shared<Timer>();
+	shared_ptr<Input> inputPtr = make_shared<Input>();
+
+	//오브젝트 객체 생성
+	Obj player;
+	Obj npc;
 
 private:
 	//화면 크기 관련
