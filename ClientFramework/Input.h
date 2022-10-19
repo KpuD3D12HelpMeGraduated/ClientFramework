@@ -1,6 +1,6 @@
 #pragma once
 #include "Util.h"
-#include "Timer.h"
+#include "SFML.h"
 
 class Input
 {
@@ -11,5 +11,5 @@ public:
 	void Init();
 
 	//е╟ ют╥б
-	void InputKey(Obj& player, shared_ptr<Timer> timerPtr);
+	void InputKey(shared_ptr<Timer> timerPtr, Obj* playerArr, shared_ptr<SFML> networkPtr);
 };

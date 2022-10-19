@@ -105,12 +105,12 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)/ClientFramework/FbxSdk</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/ClientFramework/FbxSdk;$(SolutionDir);</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/ClientFramework/FbxLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ClientFramework/FbxLib;$(SolutionDir)\SFMLLib</AdditionalLibraryDirectories>
       <AdditionalOptions>libfbxsdk-md.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -139,7 +139,9 @@
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetWork_Client.cpp" />
+    <ClCompile Include="NetWork_Client.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="RTV.cpp" />
     <ClCompile Include="SwapChain.cpp" />
@@ -161,8 +163,11 @@
     <ClInclude Include="DxEngine.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="NetWork_Client.h" />
+    <ClInclude Include="NetWork_Client.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="SFML.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="CmdQueue.h" />

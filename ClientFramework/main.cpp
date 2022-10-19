@@ -6,7 +6,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 	//클라이언트 초기화
 	client.Init(hInst, nCmdShow);
 	//매 프레임마다 업데이트
-	//매 프레임마다 업데이트
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT)
 	{

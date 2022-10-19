@@ -16,6 +16,7 @@
 #include "FbxLoader.h"
 #include "Timer.h"
 #include "Input.h"
+#include "SFML.h"
 
 class DxEngine {
 public:
@@ -23,7 +24,7 @@ public:
 	void Init(WindowInfo windowInfo);
 	
 	//매 프레임마다 업데이트
-	void Update(WindowInfo windowInfo);
+	void Update(WindowInfo windowInfo, bool isActive);
 
 	//매 프레임마다 그리기
 	void Draw();
@@ -45,10 +46,11 @@ public:
 	shared_ptr<FbxLoader> fbxLoaderPtr = make_shared<FbxLoader>();
 	shared_ptr<Timer> timerPtr = make_shared<Timer>();
 	shared_ptr<Input> inputPtr = make_shared<Input>();
+	shared_ptr<SFML> networkPtr = make_shared<SFML>();
 
 	//오브젝트 객체 생성
-	Obj player;
-	Obj npc;
+	Obj playerArr[PLAYERMAX];
+	Obj npcArr[NPCMAX];
 
 private:
 	//화면 크기 관련

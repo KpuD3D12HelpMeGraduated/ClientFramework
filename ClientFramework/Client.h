@@ -2,6 +2,7 @@
 #include "DxEngine.h"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+bool isActive = true;
 
 class Client
 {
@@ -28,15 +29,23 @@ public:
 		ShowWindow(windowInfo.hwnd, nCmdShow);
 		UpdateWindow(windowInfo.hwnd);
 		
+		AllocConsole();
+		freopen("CONOUT$", "wt", stdout);
+
 		//엔진 초기화
 		dxEngine.Init(windowInfo);
 
 		//오브젝트 데이터 생성
 		vector<Vertex> vec;
 		vector<UINT> indexVec;
-		dxEngine.fbxLoaderPtr->LoadFbxData(vec, indexVec);
-		dxEngine.vertexBufferPtr->CreateVertexBuffer(vec, dxEngine.devicePtr);
-		dxEngine.indexBufferPtr->CreateIndexBuffer(indexVec, dxEngine.devicePtr);
+		dxEngine.fbxLoaderPtr->LoadFbxData(vec, indexVec, "../Resources/AnimeCharacter.fbx");
+		dxEngine.vertexBufferPtr->CreateVertexBuffer(vec, dxEngine.devicePtr, 1);
+		dxEngine.indexBufferPtr->CreateIndexBuffer(indexVec, dxEngine.devicePtr, 1);
+		vector<Vertex> vec2;
+		vector<UINT> indexVec2;
+		dxEngine.fbxLoaderPtr->LoadFbxData(vec2, indexVec2, "../Resources/Dragon.fbx");
+		dxEngine.vertexBufferPtr->CreateVertexBuffer(vec2, dxEngine.devicePtr, 2);
+		dxEngine.indexBufferPtr->CreateIndexBuffer(indexVec2, dxEngine.devicePtr, 2);
 		dxEngine.psoPtr->CreateInputLayoutAndPSOAndShader(dxEngine.devicePtr, dxEngine.rootSignaturePtr, dxEngine.dsvPtr);
 		dxEngine.texturePtr->CreateTexture(L"..\\Resources\\Texture\\bricks.dds", dxEngine.devicePtr, dxEngine.cmdQueuePtr);
 		dxEngine.texturePtr->CreateSRV(dxEngine.devicePtr);
@@ -46,7 +55,7 @@ public:
 
 	void Update()
 	{
-		dxEngine.Update(windowInfo);
+		dxEngine.Update(windowInfo, isActive);
 		dxEngine.Draw();
 	}
 };
@@ -55,8 +64,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
 	{
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE)
+		{
+			isActive = false;
+		}
+		else
+		{
+			isActive = true;
+		}
+		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_CLOSE:
+		FreeConsole();
 		break;
 	default:
 		break;

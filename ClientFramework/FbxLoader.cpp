@@ -1,6 +1,6 @@
 #include "FbxLoader.h"
 
-void FbxLoader::LoadFbxData(vector<Vertex>& vertexVec, vector<UINT>& indexVec) {
+void FbxLoader::LoadFbxData(vector<Vertex>& vertexVec, vector<UINT>& indexVec, const char* path) {
 	FbxManager* lSdkManager = FbxManager::Create();
 	FbxIOSettings* ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
 	lSdkManager->SetIOSettings(ios);
@@ -9,7 +9,7 @@ void FbxLoader::LoadFbxData(vector<Vertex>& vertexVec, vector<UINT>& indexVec) {
 	FbxScene* lScene = FbxScene::Create(lSdkManager, "My Scene");
 	bool lResult;
 
-	lResult = LoadScene(lSdkManager, lScene, "../Resources/Dragon.fbx");
+	lResult = LoadScene(lSdkManager, lScene, path);
 	FbxNode* lNode = lScene->GetRootNode();
 	DisplayContent(lNode, vertexVec, indexVec);
 }

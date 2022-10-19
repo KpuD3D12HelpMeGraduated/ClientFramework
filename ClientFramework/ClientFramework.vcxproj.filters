@@ -161,6 +161,9 @@
     <ClInclude Include="Input.h">
       <Filter>DxEngine\GameUtil</Filter>
     </ClInclude>
+    <ClInclude Include="SFML.h">
+      <Filter>DxEngine\NetWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Shader.hlsl">

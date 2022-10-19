@@ -10,7 +10,7 @@
 class FbxLoader
 {
 public:
-	void LoadFbxData(vector<Vertex>& vertexVec, vector<UINT>& indexVec);
+	void LoadFbxData(vector<Vertex>& vertexVec, vector<UINT>& indexVec, const char* path);
 
 private:
 	//fbx¾À ·Îµå
